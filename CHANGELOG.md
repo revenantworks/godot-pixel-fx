@@ -4,6 +4,12 @@ All notable changes to Pixel FX Starter. Versions follow semantic versioning.
 
 ## [Unreleased]
 
+Nothing yet.
+
+## [0.1.0] - 2026-10-31
+
+First public release.
+
 ### Added
 
 - Five `canvas_item` shaders in `addons/pixel_fx/shaders/`: `outline`, `hit_flash`,
@@ -23,5 +29,3 @@ All notable changes to Pixel FX Starter. Versions follow semantic versioning.
   a PII scan of every file and commit identity, and CodeQL on the workflows.
 - Three screenshots of the real demo scene in `screenshots/`.
 - A PII pre-commit hook (`.githooks/`), armed with `git config core.hooksPath .githooks`.
-
-Version 0.1.0 is tagged when the release checklist passes.
