@@ -1,0 +1,21 @@
+# Godot generated cache
+.godot/
+# Screenshot tool output that is not kept
+/tools/out/
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+desktop.ini
+*~
+.*.swp
+.idea/
+.vscode/
+
+# Python scratch from the PII scanner
+__pycache__/
+*.pyc
+
+# Local environment
+.env
+*.log

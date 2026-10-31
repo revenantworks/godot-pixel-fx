@@ -1,0 +1,14 @@
+Pixel FX Starter
+Copyright 2026 Revenantworks
+
+This product is licensed under the Apache License, Version 2.0 (see LICENSE).
+
+If you redistribute these shaders, in source or inside a game or other work, keep this
+NOTICE file (or its text) with them, as section 4 of the licence asks.
+
+Third-party art in this repository: demo/art/sprite.png is a tile from Tiny Dungeon by
+Kenney (https://kenney.nl), released under CC0 1.0. It is not part of addons/pixel_fx/.
+See demo/art/CREDITS.md.
+
+tools/pii_scan.py and tools/pii/ come from revenantworks/claude-skills, Copyright 2026
+Revenantworks, Apache-2.0.

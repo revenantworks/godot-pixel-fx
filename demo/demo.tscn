@@ -1,0 +1,150 @@
+[gd_scene load_steps=16 format=3]
+
+[ext_resource type="Script" path="res://demo/demo.gd" id="1_demo"]
+[ext_resource type="Texture2D" path="res://demo/art/sprite.png" id="2_sprite"]
+[ext_resource type="Texture2D" path="res://demo/art/sprite_palette.png" id="3_palette"]
+[ext_resource type="Shader" path="res://addons/pixel_fx/shaders/outline.gdshader" id="4_outline"]
+[ext_resource type="Shader" path="res://addons/pixel_fx/shaders/hit_flash.gdshader" id="5_hit_flash"]
+[ext_resource type="Shader" path="res://addons/pixel_fx/shaders/palette_swap.gdshader" id="6_palette_swap"]
+[ext_resource type="Shader" path="res://addons/pixel_fx/shaders/dissolve.gdshader" id="7_dissolve"]
+[ext_resource type="Shader" path="res://addons/pixel_fx/shaders/pixelate.gdshader" id="8_pixelate"]
+
+[sub_resource type="Theme" id="Theme_demo"]
+default_font_size = 9
+
+[sub_resource type="ShaderMaterial" id="Mat_outline"]
+shader = ExtResource("4_outline")
+shader_parameter/outline_color = Color(1, 1, 1, 1)
+shader_parameter/width = 1
+shader_parameter/inner = false
+shader_parameter/diagonals = false
+shader_parameter/grow = true
+shader_parameter/alpha_cutoff = 0.01
+
+[sub_resource type="ShaderMaterial" id="Mat_hit_flash"]
+shader = ExtResource("5_hit_flash")
+shader_parameter/flash_color = Color(1, 1, 1, 1)
+shader_parameter/flash_amount = 0.0
+shader_parameter/hard_flash = false
+
+[sub_resource type="ShaderMaterial" id="Mat_palette_swap"]
+shader = ExtResource("6_palette_swap")
+shader_parameter/palette = ExtResource("3_palette")
+shader_parameter/palette_row = 1
+shader_parameter/tolerance = 0.004
+
+[sub_resource type="ShaderMaterial" id="Mat_dissolve"]
+shader = ExtResource("7_dissolve")
+shader_parameter/progress = 0.0
+shader_parameter/edge_color = Color(1, 0.55, 0.1, 1)
+shader_parameter/edge_width = 0.08
+shader_parameter/block_size = 1
+shader_parameter/seed = 0
+
+[sub_resource type="ShaderMaterial" id="Mat_pixelate_sprite"]
+shader = ExtResource("8_pixelate")
+shader_parameter/pixel_size = 3
+shader_parameter/use_screen = false
+
+[sub_resource type="ShaderMaterial" id="Mat_pixelate_screen"]
+shader = ExtResource("8_pixelate")
+shader_parameter/pixel_size = 3
+shader_parameter/use_screen = true
+
+[node name="Demo" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_demo")
+script = ExtResource("1_demo")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.13, 0.14, 0.2, 1)
+
+[node name="Title" type="Label" parent="."]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 6.0
+offset_right = 632.0
+offset_bottom = 20.0
+text = "Pixel FX Starter: five pixel-art shaders"
+horizontal_alignment = 1
+
+[node name="Stage" type="Node2D" parent="."]
+
+[node name="Outline" type="Sprite2D" parent="Stage"]
+material = SubResource("Mat_outline")
+scale = Vector2(4, 4)
+texture = ExtResource("2_sprite")
+
+[node name="HitFlash" type="Sprite2D" parent="Stage"]
+material = SubResource("Mat_hit_flash")
+scale = Vector2(4, 4)
+texture = ExtResource("2_sprite")
+
+[node name="PaletteSwap" type="Sprite2D" parent="Stage"]
+material = SubResource("Mat_palette_swap")
+scale = Vector2(4, 4)
+texture = ExtResource("2_sprite")
+
+[node name="Dissolve" type="Sprite2D" parent="Stage"]
+material = SubResource("Mat_dissolve")
+scale = Vector2(4, 4)
+texture = ExtResource("2_sprite")
+
+[node name="Pixelate" type="Sprite2D" parent="Stage"]
+material = SubResource("Mat_pixelate_sprite")
+scale = Vector2(4, 4)
+texture = ExtResource("2_sprite")
+
+[node name="Panels" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Footer" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 336.0
+offset_right = 632.0
+offset_bottom = 356.0
+alignment = 1
+
+[node name="Animate" type="CheckBox" parent="Footer"]
+layout_mode = 2
+text = "Animate (A)"
+
+[node name="WholeScreen" type="CheckBox" parent="Footer"]
+layout_mode = 2
+text = "Pixelate whole screen (P)"
+
+[node name="Hint" type="Label" parent="Footer"]
+layout_mode = 2
+text = "Space: hit flash"
+
+[node name="ScreenPixelate" type="CanvasLayer" parent="."]
+layer = 10
+
+[node name="Overlay" type="ColorRect" parent="ScreenPixelate"]
+visible = false
+material = SubResource("Mat_pixelate_screen")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2

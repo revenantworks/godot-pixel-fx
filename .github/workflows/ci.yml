@@ -1,0 +1,51 @@
+name: ci
+
+# Every check in tools/check.sh: import, the 9 headless tests, then the 21 render tests on a
+# software OpenGL GPU (Mesa llvmpipe under Xvfb). The runner fails on a test or file count
+# that differs from EXPECTED_SCRIPTS and EXPECTED_TESTS, and on any engine ERROR line.
+# Push to main and v* tags only, the same rule as revenantworks/claude-skills: the merged
+# push to main runs the same checks a pull_request run would.
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: ${{ !startsWith(github.ref, 'refs/tags/') }}
+
+env:
+  GODOT_VERSION: "4.7.2"
+  # SHA-512 of Godot_v4.7.2-stable_linux.x86_64.zip from the official godotengine/godot release.
+  GODOT_SHA512: "9aa00f7a605200940bce3027a567b782f49bd8e940dd06ae9e987bd65aee1b1467edd56ed84fcdcbdd44354bf613bdbb4e5d2913e925850368e150c59ed54c65"
+
+jobs:
+  godot-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with: { persist-credentials: false }
+      - name: Install Xvfb and Mesa
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq xvfb libgl1-mesa-dri libglx-mesa0
+      - name: Download Godot and check its hash
+        run: |
+          set -euo pipefail
+          zip="Godot_v${GODOT_VERSION}-stable_linux.x86_64.zip"
+          curl -fsSL -o "$RUNNER_TEMP/$zip" \
+            "https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}-stable/$zip"
+          echo "$GODOT_SHA512  $RUNNER_TEMP/$zip" | sha512sum -c -
+          unzip -q "$RUNNER_TEMP/$zip" -d "$RUNNER_TEMP/godot"
+          bin="$RUNNER_TEMP/godot/Godot_v${GODOT_VERSION}-stable_linux.x86_64"
+          chmod +x "$bin"
+          echo "GODOT=$bin" >> "$GITHUB_ENV"
+      - name: Run every check
+        env:
+          LIBGL_ALWAYS_SOFTWARE: "1"
+        run: tools/check.sh

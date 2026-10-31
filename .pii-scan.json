@@ -1,0 +1,4 @@
+{
+  "_comment": "Scan policy for tools/pii_scan.py (--config). Accept a deliberate hit by rule and file, only where the file must hold the shape: the scanner's own patterns, a test fixture, or a doc naming a red flag. Never add a real value here.",
+  "accepted": []
+}

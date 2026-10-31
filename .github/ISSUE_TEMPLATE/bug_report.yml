@@ -1,0 +1,79 @@
+name: Bug report
+description: A shader, the demo, a tool or a test does not work as written.
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the report. Do not paste secrets, real names, personal paths, or email
+        addresses. Use placeholders such as `<name>` and `~/path/to/file`.
+        To report a security problem, use the private form linked on the issue chooser.
+  - type: dropdown
+    id: component
+    attributes:
+      label: Part
+      options:
+        - outline
+        - hit_flash
+        - palette_swap
+        - dissolve
+        - pixelate
+        - Demo scene
+        - Tools (make_palette, capture_screenshots, check scripts)
+        - Tests
+        - Docs
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Pixel FX Starter version
+      description: The release or commit you used.
+      placeholder: "for example: 0.1.0"
+  - type: input
+    id: godot
+    attributes:
+      label: Godot version
+      description: From Help, About, or `godot --version`.
+      placeholder: "for example: 4.7.2.stable"
+    validations:
+      required: true
+  - type: dropdown
+    id: renderer
+    attributes:
+      label: Renderer
+      options:
+        - Compatibility (OpenGL)
+        - Forward+ (Vulkan, D3D12 or Metal)
+        - Mobile
+        - Web export
+    validations:
+      required: true
+  - type: input
+    id: platform
+    attributes:
+      label: OS and GPU
+      placeholder: "for example: Windows 11, NVIDIA RTX 3060"
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: Say what you did, what you expected, and what you saw instead. A screenshot helps.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      value: |
+        1.
+        2.
+        3.
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: Privacy check
+      options:
+        - label: I removed personal data (names, paths, emails, keys) from this report.
+          required: true
